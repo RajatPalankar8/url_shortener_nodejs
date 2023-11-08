@@ -9,7 +9,7 @@ router.post('/submitUrl',async (req,res)=>{
    const shortkey = short.generate();
  
    try{
-      const submitUrl = new UrlShortenerModel({longUrl});
+      const submitUrl = new UrlShortenerModel({longUrl,shortUrl:shortkey});
       const saved = await submitUrl.save();
 
       res.json({status:200,success:"Short URL Created"});
@@ -18,4 +18,19 @@ router.post('/submitUrl',async (req,res)=>{
    }
 });
 
+
+router.get('/:shortUrl',async(req,res)=>{
+   const {shortUrl} = req.params;
+   try{
+      const url = await UrlShortenerModel.findOne({ shortUrl });
+      if (url) {
+         console.log("URL -> ",url.longUrl);
+         return res.redirect(url.longUrl);
+       } else {
+         res.status(404).json({ error: 'URL not found' });
+       }
+   }catch(err){
+      res.status(500).json({error:"Server Error"});
+   }
+})
 module.exports = router;

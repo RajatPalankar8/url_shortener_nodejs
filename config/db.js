@@ -9,7 +9,7 @@ const options = {
     // pass: mongodbConfig.pass
 }
 
-const connection = mongoose.createConnection('mongodb://localhost:27017/shortURL');
+const connection = mongoose.createConnection('mongodb://127.0.0.1:27017/shortURL');
 
 
 module.exports = connection;
